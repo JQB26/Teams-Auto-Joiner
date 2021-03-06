@@ -16,6 +16,9 @@ from webdriver_manager.utils import ChromeType
 from webdriver_manager.microsoft import EdgeChromiumDriverManager
 from msedge.selenium_tools import Edge, EdgeOptions
 
+from pynput.keyboard import Key, Controller
+keyboard = Controller()
+
 browser: webdriver.Chrome = None
 total_members = None
 config = None
@@ -447,6 +450,14 @@ def join_meeting(meeting):
 
     print(f"Joined meeting: {meeting.title}")
 
+    keyboard.press(Key.ctrl)
+    keyboard.press(Key.f11)
+
+    time.sleep(0.3)
+
+    keyboard.release(Key.ctrl)
+    keyboard.release(Key.f11)
+
     if 'auto_leave_after_min' in config and config['auto_leave_after_min'] > 0:
         hangup_thread = Timer(config['auto_leave_after_min'] * 60, hangup)
         hangup_thread.start()
@@ -498,6 +509,14 @@ def hangup():
         hangup_btn.click()
 
         print(f"Left Meeting: {current_meeting.title}")
+
+        keyboard.press(Key.ctrl)
+        keyboard.press(Key.f12)
+
+        time.sleep(0.3)
+
+        keyboard.release(Key.ctrl)
+        keyboard.release(Key.f12)
 
         current_meeting = None
 
